@@ -49,9 +49,3 @@
          owner: midnite
          group: midnite
 
-
-    - name: Execute the script install
-      command: /usr/bin/python3 /home/midnite/Adafruit_Python_BMP/setup.py install
-    
-    - name: Execute the BMP085
-      command: /usr/bin/python3 /home/midnite/Adafruit_Python_BMP/Adafruit_BMP/BMP085.py
