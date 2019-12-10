@@ -4,37 +4,42 @@
 
 import socket
 import sys
-import time
-import pynmea2 ## Not likelt required
+import pynmea2 
 import configparser
-from Adafruit_BMP085 import BMP085
+import board
+import digitalio
+import busio
+import time
+from adafruit_bmp280 import adafruit_bmp280
+
 
 ##--------------------------- Variables -------------------
 config = ConfigParser.ConfigParser()
 config.read("/boot/bmpnmea.config")
-bmp180_enalbed = config.get("BMP180", "bmp180_enalbed")
-HOST = config.get("BMP180", "dest_IP")
-PORT = config.get("BMP180", "dest_port")
-bmp_ic2 = config.get("BMP180", "bmp_ic2")
-bmp = BMP085(bmp_ic2)  ## This will require ic2tools to check
+bmp280_enalbed = config.get("BMP280", "bmp280_enalbed")
+HOST = config.get("BMP280", "dest_IP")
+PORT = config.get("BMP280", "dest_port")
+#bmp_ic2 = config.get("BMP280", "bmp_ic2")
+#bmp = BMP085(bmp_ic2)  ## This will require ic2tools to check
+i2c = busio.I2C(board.SCL, board.SDA)
+sensor = adafruit_bmp280.Adafruit_BMP280_I2C(i2c)
 
-## check to see if this script should run
 
-if bmp180_enabled == 'yes':
+## -------check to see if this script should run
+if bmp280_enabled == 'yes':
 	break
 	else:
 	sys.exit()
 
-## Functions to receive data
-
+## --- Functions to receive data ---
 def get_pressure():
     global pressure
-    pressure = str(round(bmp.readPressure(),2))
+    pressure = str(round(sensor.Pressure(),2))
     #pressure = str(pressure)
 
 def get_temp():
     global airtemp
-    airtemp = str(round(bmp.readTemperature(),2))
+    airtemp = str(round(sensor.Temperature(),2))
     #airtemp = str(airtemp)
 
 while True:
