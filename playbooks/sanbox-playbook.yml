@@ -53,7 +53,7 @@
         line: 'PermitRootLogin prohibit-password'
         
     - name: Intall pip required packages
-      pip: name=pynmea2,pyserial,gpsd-py3
+      pip3: name=pynmea2,pyserial,gpsd-py3,adafruit_bmp280
       #with_items: python_packages_to_install
     
     - name: Update apt
