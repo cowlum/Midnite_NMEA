@@ -1,0 +1,57 @@
+###########################################################################################################
+# DO Community Playbooks
+# Playbook: Initial Server Setup
+# Based on: https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-18-04
+# Dedicated Guide: https://www.digitalocean.com/community/tutorials/automating-initial-server-setup-with-ansible
+###################################################################################################################
+
+---
+- hosts: all
+  remote_user: pi
+  become: yes
+  gather_facts: false
+  vars:
+    create_user: midnite
+    copy_local_key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+    # sys_packages: ['python3-pip'] 
+
+  tasks:
+    - name: Intall pip required packages
+      pip: name=pynmea2,pyserial,configparser
+      #with_items: python_packages_to_install
+
+    - name: Copy usb rules 
+      copy:
+        src: /home/callum/sandbox-playbook/sandbox-playbooks/files/99-usb.rules
+        dest: /etc/udev/rules.d/ 
+        owner: root
+        group: dialout
+        mode: 0644
+        backup: yes
+
+    - name: Create directories
+      file:
+        path: /home/midnite/python_scripts
+        state: directory
+        mode: 0777
+
+    - name: Copy Adafruit BMP library
+      synchronize:
+         src: /home/callum/sandbox-playbook/sandbox-playbooks/Adafruit_Python_BMP
+         dest: /home/midnite/
+
+
+    - name: Recursively change ownership of a directory
+      file:
+         path: /home/midnite
+         state: directory
+         recurse: yes
+         owner: midnite
+         group: midnite
+
+
+    - name: Execute the script install
+      command: /usr/bin/python3 /home/midnite/Adafruit_Python_BMP/setup.py install
+    
+    - name: Execute the BMP085
+      command: /usr/bin/python3 /home/midnite/Adafruit_Python_BMP/Adafruit_BMP/BMP085.py
