@@ -84,7 +84,7 @@ def accepting_in_connections():
             print("In Connection has been established :" + inaddress[0])
             while True:
                 data = inconn.recv(BUFFER_SIZE)
-                   if not data: continue
+                if not data: continue
                 datalist.append(data)
                 #time.sleep(0.01)
                 print(datalist)
