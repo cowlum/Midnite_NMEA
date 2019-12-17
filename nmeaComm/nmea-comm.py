@@ -21,6 +21,7 @@ NUMBER_OF_THREADS = 4
 JOB_NUMBER = [1, 2, 3, 4]
 queue = Queue()
 dataqueue = Queue()
+datalist=[]
 in_connections = []
 in_address = []
 host='0.0.0.0'
@@ -28,7 +29,7 @@ inport=2010
 out_connections = []
 out_address = []
 outport=2000
-
+BUFFER_SIZE=1024
 
 
 ################################### TCP HANDLING ##########################################
@@ -74,16 +75,18 @@ def accepting_in_connections():
     del in_address[:]
 
     while True:
-        try:
+        #try:
             inconn, inaddress = ins.accept()
             ins.setblocking(1)  # prevents timeout
 
             in_connections.append(inconn)
             in_address.append(inaddress)
-
             print("In Connection has been established :" + inaddress[0])
-
-        except:
+            while True:
+                datalist.append(inconn.recv(BUFFER_SIZE))
+                time.sleep(1)
+                print(datalist)
+        #except:
             print("Error accepting In connections")
 
 ###
