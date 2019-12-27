@@ -1,40 +1,28 @@
 import asyncio
-from asyncserial import Serial
+
+async def tcp_echo_client(message):
+    reader, writer = await asyncio.open_connection(
+        '127.0.0.1', 2947)
+    reader2, writer2 = await asyncio.open_connection(
+        '127.0.0.1', 2010)
+
+    print(f'Send: {message!r}')
+    writer.write(message.encode())
+    await writer.drain()
+
+    #print(f'Send: {message!r}')
+    #writer2.write(message.encode())
+    #await writer2.drain()
+
+    while True:
+        data = await reader.readline()
+        print(f'Received: {data.decode()!r}')
+        writer2.write(data)
+        await writer2.drain()
 
 
-message = "testing callum"
+    print('Close the connection')
+    writer.close()
+    await writer.wait_closed()
 
-async def tcp_client(message, loop):
-	
-	while True:
-		reader, writer = await asyncio.open_connection('192.168.0.140', 2010, loop=loop)
-
-		print('Send: %r' % message)
-		writer.write(message.encode())
-		await asyncio.sleep(100)
-		#data = await reader.read(100)
-		#print('Received: %r' % data.decode())
-
-		#print('Close the socket')
-		#writer.close()
-
-
-async def serial_in():
-	await serial.read() # Drop anything that was already received
-	while True:
-		#print("mark one")
-		line = await serial.readline() # Read a line
-		#print("mark two")
-		print(line)
-		await asyncio.sleep(0) # Let's be a bit greedy, should be adjust to your needs
-
-loop = asyncio.get_event_loop()
-serial = Serial(loop, "/dev/ais", baudrate=34800)
-
-#loop.create_task(connect('first hello', 15))
-#asyncio.ensure_future(test())
-loop.create_task((tcp_client(message, loop)))
-loop.create_task(serial_in())
-
-loop.run_forever()
-loop.close()
+asyncio.run(tcp_echo_client('?WATCH={"enable":true,"json":false,"nmea":true,"raw":0,"scaled":false,"timing":false,"split24":false,"pps":false}'))

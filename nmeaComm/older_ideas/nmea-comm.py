@@ -2,14 +2,15 @@ import asyncio
 
 writers = []
 
+
 def forward(writer, addr, message):
     for w in writers:
         if w != writer:
-            try:
+            #try:
                 #w.write(f"{addr!r}: {message!r}\n".encode())
                 w.write(message.encode())
-            except:
-                break
+            #except:
+            #   w.remove(writer)
             #   w.close()
 
          #   print("closing")
@@ -20,24 +21,24 @@ async def handle(reader, writer):
     addr = writer.get_extra_info('peername')
     message = f"{addr!r} is connected !!!!"
     print(message)
-    #forward(writer, addr, message)
+    forward(writer, addr, message)
     while True:
         data = await reader.read(100)
         print(data)
         message = data.decode().strip()
         forward(writer, addr, message)
-        await writer.drain()
+#        try:
+#            await writer.drain()
 #        except:
 #            print("drain fail")
         if data is b'':
-            try:
-                #print("removing writer")
+#            try:
+                print("removing writer")
                 print(addr)
                 writers.remove(writer)
-                writer.close()
                 break
                 #writer.close()
-            except:
+#            except:
                 print("data b exceptoin")
 #            return
 #        if message == "exit":
