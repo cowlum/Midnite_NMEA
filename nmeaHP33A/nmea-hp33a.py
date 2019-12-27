@@ -1,4 +1,9 @@
 import asyncio
+import time
+
+time.sleep(10) ## Allow 10 seconds for NmeaCommunicator to be active
+
+nmeaconfig='?WATCH={"enable":true,"json":false,"nmea":true,"raw":0,"scaled":false,"timing":false,"split24":false,"pps":false}'
 
 async def tcp_echo_client(message):
     reader, writer = await asyncio.open_connection(
@@ -19,10 +24,12 @@ async def tcp_echo_client(message):
         print(f'Received: {data.decode()!r}')
         writer2.write(data)
         await writer2.drain()
-
-
+        if data is b'':
+            print("I die now")
+            quit()
+            
     print('Close the connection')
     writer.close()
     await writer.wait_closed()
 
-asyncio.run(tcp_echo_client('?WATCH={"enable":true,"json":false,"nmea":true,"raw":0,"scaled":false,"timing":false,"split24":false,"pps":false}'))
+asyncio.run(tcp_echo_client(nmeaconfig))
