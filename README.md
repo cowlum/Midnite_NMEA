@@ -8,11 +8,11 @@ Raspbian (read only) + Python3
 
 3 Python components
 
-1) NmeaCommunicator - Python program to recieve NMEA strings from all connected devices on port 2010 and send to all connected devices on port 2000
+1) NmeaCommunicator - Python program to recieve NMEA strings from all connected devices on port 2010 and send to all other connected devices on port 2010
 
 2) NmeaBMP280 - Python program to receive Pressure and Tempreture from the bosch BMP280, convert it to NMEA and send it to port NmeaCommunicator on port 2010
 
-3) NmeaHP33A - Python program to receive NMEA strings from the HP33A and send it to the NmeaCommunicator on port 2010.
+3) NmeaHP33A - Python program to receive NMEA strings from the HP33A via GPSD and send it to the NmeaCommunicator on port 2010.
 
 
 Goals:
