@@ -2,6 +2,8 @@ import asyncio
 import time
 import configparser
 
+## Variables
+
 config = ConfigParser.ConfigParser()
 config.read("/boot/nmeahp33a.config")
 hp33a_enalbed = config.get("HP33A", "hp33a_enalbed")
@@ -9,10 +11,20 @@ GPSDHOST = config.get("HP33A", "gpsd_IP")
 GPSDPORT = config.get("HP33A", "gpsd_port")
 HOST = config.get("HP33A", "dest_IP")
 PORT = config.get("HP33A", "dest_port")
+## Sets GPSD to output in nmea
+nmeaconfig='?WATCH={"enable":true,"json":false,"nmea":true,"raw":0,"scaled":false,"timing":false,"split24":false,"pps":false}' 
 
-time.sleep(10) ## Allow 10 seconds for NmeaCommunicator to be active
+## Check for enabled
 
-nmeaconfig='?WATCH={"enable":true,"json":false,"nmea":true,"raw":0,"scaled":false,"timing":false,"split24":false,"pps":false}'
+if hp33a_enalbed == 'yes':
+    break
+else:
+    exit()
+
+## Allow 10 seconds for NmeaCommunicator to be active
+
+time.sleep(10)
+
 
 async def tcp_client(message):
     reader, writer = await asyncio.open_connection(
@@ -23,10 +35,6 @@ async def tcp_client(message):
     print(f'Send: {message!r}')
     writer.write(message.encode())
     await writer.drain()
-
-    #print(f'Send: {message!r}')
-    #writer2.write(message.encode())
-    #await writer2.drain()
 
     while True:
         data = await reader.readline()
