@@ -22,7 +22,7 @@ async def handle(reader, writer):
     print(message)
     #forward(writer, addr, message)
     while True:
-        data = await reader.read(100)
+        data = await reader.readline()
         print(data)
         message = data.decode().strip()
         forward(writer, addr, message)
