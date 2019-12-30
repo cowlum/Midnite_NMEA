@@ -1,7 +1,26 @@
 import asyncio
+import configparser
 
+## Variables
+
+config = ConfigParser.ConfigParser()
+config.read("/boot/nmeacomm.config")
+hp33a_enalbed = config.get("nmeaCOMM", "ncomm_enalbed")
+HOST = config.get("nmeaCOMM", "IP")
+PORT = config.get("nmeaCOMM", "port")
+
+## List for the attached devices.
 writers = []
 
+## Check for enabled
+
+if ncomm_enalbed == 'yes':
+    break
+else:
+    exit()
+
+## Function for sending to all devices except the source
+## Do we need/want an async and await w.wrote here
 def forward(writer, addr, message):
     for w in writers:
         if w != writer:
@@ -9,12 +28,13 @@ def forward(writer, addr, message):
                 #w.write(f"{addr!r}: {message!r}\n".encode())
                 w.write(message.encode())
             except:
+                print("Failure to send")
                 break
-            #   w.close()
 
-         #   print("closing")
-          #  w.close()
-
+## Function to append new devices to writers list
+## Read anyline recieved from device to the data variable
+## Send the data to the forwar function for sending
+## If the data recieved is empty remove the writer.
 async def handle(reader, writer):
     writers.append(writer)
     addr = writer.get_extra_info('peername')
@@ -27,8 +47,7 @@ async def handle(reader, writer):
         message = data.decode().strip()
         forward(writer, addr, message)
         await writer.drain()
-#        except:
-#            print("drain fail")
+        
         if data is b'':
             try:
                 #print("removing writer")
@@ -39,19 +58,11 @@ async def handle(reader, writer):
                 #writer.close()
             except:
                 print("data b exceptoin")
-#            return
-#        if message == "exit":
-#            message = f"{addr!r} wants to close the connection."
-#            print(message)
-#            forward(writer, "Server", message)
-#            break
-    #print("marker two")
-    #writers.remove(writer)
-    #writer.close()
+
 
 async def main():
     server = await asyncio.start_server(
-        handle, '0.0.0.0', 2010)
+        handle, IP, port)
     addr = server.sockets[0].getsockname()
     print(f'Serving on {addr}')
     async with server:
