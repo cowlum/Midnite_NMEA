@@ -4,19 +4,16 @@ import smbus2
 import bme280
 import configparser
 
+## Allow 10 seconds for NmeaCommunicator, i2c to be active
+asyncio.sleep(10)
 
+## Variables
 config = configparser.ConfigParser()
 config.read("/boot/nmeabmp280.config")
 bmp280_enabled = config.get("BMP280", "bmp280_enabled")
 HOST = config.get("BMP280", "dest_IP")
 PORT = config.get("BMP280", "dest_port")
 seconds = int(config.get("BMP280", "seconds"))
-
-## Variables
-
-print(HOST)
-print(PORT)
-
 endline = "\n"
 port = 1
 address = 0x76
@@ -26,23 +23,12 @@ bus = smbus2.SMBus(port)
 calibration_params = bme280.load_calibration_params(bus, address)
 data = bme280.sample(bus, address, calibration_params)
 
-
-
-
-
+## Open a connection to Nmea Communicator
+## While True collect pressure and tempreture
+## Send the nmea string compiled by pynmea2 and wait seconds.
 async def tcp_client(message):
-    #reader, writer = await asyncio.open_connection(
-    #    '127.0.0.1', 2000)
-    reader2, writer2 = await asyncio.open_connection(
+    reader, writer = await asyncio.open_connection(
         HOST, PORT)
-
-    #print(f'Send: {message!r}')
-    #writer.write(message.encode())
-    #await writer.drain()
-
-    #print(f'Send: {message!r}')
-    #writer2.write(message.encode())
-    #await writer2.drain()
 
     while True:
 
@@ -57,15 +43,15 @@ async def tcp_client(message):
         npres = str(pynmea2.XDR('II','XDR',(('P',pressure,'B','Pressure Sensor',))))
         npres = npres + endline
         npres = npres.encode()        
-        print(pressure)
+        #print(pressure)
 
-        writer2.write(ntemp)
-        writer2.write(npres)
-        await writer2.drain()
+        writer.write(ntemp)
+        writer.write(npres)
+        await writer.drain()
         await asyncio.sleep(seconds)
 
 
-    print('Close the connection')
+    #print('Close the connection')
     writer.close()
     await writer.wait_closed()
 
