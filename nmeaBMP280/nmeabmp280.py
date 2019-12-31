@@ -48,7 +48,7 @@ async def tcp_client(message):
             writer.write(ntemp)
             writer.write(npres)
             await writer.drain()
-            writer.close()
+
         except:
             #print('Close the connection')
             await writer.wait_closed()
