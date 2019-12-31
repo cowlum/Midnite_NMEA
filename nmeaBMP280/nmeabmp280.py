@@ -26,33 +26,33 @@ data = bme280.sample(bus, address, calibration_params)
 ## Open a connection to Nmea Communicator
 ## While True collect pressure and tempreture
 ## Send the nmea string compiled by pynmea2 and wait seconds.
+
 async def tcp_client(message):
     reader, writer = await asyncio.open_connection(
         HOST, PORT)
 
     while True:
+         try:  
+            pressure = str(round(data.pressure))
+            pressure = "1.0" + pressure ## conversion from bar to hPa
+            airtemp = str(round(data.temperature,1))
 
-        pressure = str(round(data.pressure))
-        pressure = "1.0" + pressure ## conversion from bar to hPa
-        airtemp = str(round(data.temperature,1))
-
-        ntemp = str(pynmea2.XDR('II','XDR',(('C',airtemp,'C','Temp Sensor',))))
-        ntemp = ntemp + endline
-        ntemp = ntemp.encode() 
+            ntemp = str(pynmea2.XDR('II','XDR',(('C',airtemp,'C','Temp Sensor',))))
+            ntemp = ntemp + endline
+            ntemp = ntemp.encode() 
  
-        npres = str(pynmea2.XDR('II','XDR',(('P',pressure,'B','Pressure Sensor',))))
-        npres = npres + endline
-        npres = npres.encode()        
-        #print(pressure)
-
-        writer.write(ntemp)
-        writer.write(npres)
-        await writer.drain()
-        await asyncio.sleep(seconds)
-
-
-    #print('Close the connection')
-    writer.close()
-    await writer.wait_closed()
+            npres = str(pynmea2.XDR('II','XDR',(('P',pressure,'B','Pressure Sensor',))))
+            npres = npres + endline
+            npres = npres.encode()        
+        
+            writer.write(ntemp)
+            writer.write(npres)
+            await writer.drain()
+            writer.close()
+        except:
+            #print('Close the connection')
+            await writer.wait_closed()
+            await asyncio.sleep(seconds)
+            exit()
 
 asyncio.run(tcp_client('connecting'))
