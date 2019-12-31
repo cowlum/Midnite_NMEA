@@ -4,7 +4,7 @@ import configparser
 
 ## Variables
 
-config = ConfigParser.ConfigParser()
+config = configparser.ConfigParser()
 config.read("/boot/nmeahp33a.config")
 hp33a_enalbed = config.get("HP33A", "hp33a_enalbed")
 GPSDHOST = config.get("HP33A", "gpsd_IP")
@@ -16,9 +16,7 @@ nmeaconfig='?WATCH={"enable":true,"json":false,"nmea":true,"raw":0,"scaled":fals
 
 ## Check for enabled
 
-if hp33a_enalbed == 'yes':
-    break
-else:
+if hp33a_enalbed == 'no':
     exit()
 
 ## Allow 10 seconds for NmeaCommunicator to be active

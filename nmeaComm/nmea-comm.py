@@ -3,20 +3,21 @@ import configparser
 
 ## Variables
 
-config = ConfigParser.ConfigParser()
+config = configparser.ConfigParser()
 config.read("/boot/nmeacomm.config")
-hp33a_enalbed = config.get("nmeaCOMM", "ncomm_enalbed")
+ncomm_enabled = config.get("nmeaCOMM", "ncomm_enalbed")
 HOST = config.get("nmeaCOMM", "IP")
 PORT = config.get("nmeaCOMM", "port")
+
+print(ncomm_enabled)
+print(HOST)
 
 ## List for the attached devices.
 writers = []
 
 ## Check for enabled
 
-if ncomm_enalbed == 'yes':
-    break
-else:
+if ncomm_enabled == 'no':
     exit()
 
 ## Function for sending to all devices except the source
@@ -62,7 +63,7 @@ async def handle(reader, writer):
 
 async def main():
     server = await asyncio.start_server(
-        handle, IP, port)
+        handle, HOST, PORT)
     addr = server.sockets[0].getsockname()
     print(f'Serving on {addr}')
     async with server:
