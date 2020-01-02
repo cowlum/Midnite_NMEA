@@ -24,6 +24,7 @@ def forward(writer, addr, message):
                 #w.write(f"{addr!r}: {message!r}\n".encode())
                 w.write(message.encode())
             except:
+                writers.remove(writer)
                 #print("Failure to send")
                 break
 
