@@ -1,6 +1,6 @@
 import asyncio
 import configparser
-
+import time
 ## Variables
 
 config = configparser.ConfigParser()
@@ -18,7 +18,7 @@ if hp33a_enabled == 'no':
     exit()
 
 ## Allow 10 seconds for NmeaCommunicator to be active
-asyncio.sleep(10)
+time.sleep(10)
 
 ## Open two connections. 
 ## connection one to collect from GPSD port
