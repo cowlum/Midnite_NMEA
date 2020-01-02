@@ -3,6 +3,7 @@ import pynmea2
 import smbus2
 import bme280
 import configparser
+import time
 
 ## Allow 10 seconds for NmeaCommunicator, i2c to be active
 asyncio.sleep(10)
@@ -48,11 +49,11 @@ async def tcp_client(message):
             writer.write(ntemp)
             writer.write(npres)
             await writer.drain()
+            time.sleep(seconds)
 
         except:
             #print('Close the connection')
             await writer.wait_closed()
-            await asyncio.sleep(seconds)
             exit()
 
 asyncio.run(tcp_client('connecting'))
