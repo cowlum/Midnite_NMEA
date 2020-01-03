@@ -24,7 +24,8 @@ def forward(writer, addr, message):
                 #w.write(f"{addr!r}: {message!r}\n".encode())
                 w.write(message.encode())
             except:
-                writers.remove(writer)
+                print(w)
+                writers.remove(w)
                 #print("Failure to send")
                 break
 
@@ -36,20 +37,27 @@ async def handle(reader, writer):
     writers.append(writer)
     addr = writer.get_extra_info('peername')
     while True:
-        data = await reader.readline()
-        message = data.decode().strip()
-        forward(writer, addr, message)
-        await writer.drain()
+        try:
+            data = await reader.readline()
+            message = data.decode().strip()
+            forward(writer, addr, message)
+            await writer.drain()
         
-        if data is b'':
-            try:
-                print(addr)
-                writers.remove(writer)
-                writer.close()
-                break
-                #writer.close()
-            except:
-                break
+            if data is b'':
+                try:
+                    print(addr)
+                    writers.remove(writer)
+                    writer.close()
+                    break
+                    #writer.close()
+                except:
+                    break
+        except:
+            print("heres the fail")
+            print(addr)
+            writers.remove(writer)
+            writer.close()
+            break
 
 async def main():
     server = await asyncio.start_server(

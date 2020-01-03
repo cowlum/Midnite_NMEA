@@ -6,7 +6,7 @@ import configparser
 import time
 
 ## Allow 10 seconds for NmeaCommunicator, i2c to be active
-asyncio.sleep(10)
+time.sleep(10)
 
 ## Variables
 config = configparser.ConfigParser()
@@ -22,7 +22,7 @@ bus = smbus2.SMBus(port)
 
 
 calibration_params = bme280.load_calibration_params(bus, address)
-data = bme280.sample(bus, address, calibration_params)
+
 
 ## Open a connection to Nmea Communicator
 ## While True collect pressure and tempreture
@@ -33,10 +33,13 @@ async def tcp_client(message):
         HOST, PORT)
 
     while True:
-         try:  
+        try: 
+            data = bme280.sample(bus, address, calibration_params) 
+            
             pressure = str(round(data.pressure))
             pressure = "1.0" + pressure ## conversion from bar to hPa
             airtemp = str(round(data.temperature,1))
+            #print(data)
 
             ntemp = str(pynmea2.XDR('II','XDR',(('C',airtemp,'C','Temp Sensor',))))
             ntemp = ntemp + endline
@@ -50,7 +53,7 @@ async def tcp_client(message):
             writer.write(npres)
             await writer.drain()
             time.sleep(seconds)
-
+            #print("loop restarts")
         except:
             #print('Close the connection')
             await writer.wait_closed()
