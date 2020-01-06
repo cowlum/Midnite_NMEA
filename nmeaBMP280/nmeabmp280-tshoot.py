@@ -31,7 +31,7 @@ calibration_params = bme280.load_calibration_params(bus, address)
 async def tcp_client(message):
     while True:
         try: 
-            reader, writer = await asyncio.open_connection(
+            writer = await asyncio.open_connection(
         HOST, PORT)
             data = bme280.sample(bus, address, calibration_params) 
             
