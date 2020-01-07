@@ -21,18 +21,16 @@ def forward(writer, addr, message):
     for w in writers:
         if w != writer:
             try:
-                #w.write(f"{addr!r}: {message!r}\n".encode())
                 w.write(message.encode())
             except:
-                #print(w)
                 writers.remove(w)
-                #print("Failure to send")
                 break
 
 ## Function to append new devices to writers list
 ## Read anyline recieved from device to the data variable
 ## Send the data to the forwar function for sending
 ## If the data recieved is empty remove the writer.
+
 async def handle(reader, writer):
     writers.append(writer)
     addr = writer.get_extra_info('peername')
@@ -45,16 +43,12 @@ async def handle(reader, writer):
         
             if data is b'':
                 try:
-                #    print(addr)
                     writers.remove(writer)
                     writer.close()
                     break
-                    #writer.close()
                 except:
                     break
         except:
-       #     print("heres the fail")
-       #     print(addr)
             writers.remove(writer)
             writer.close()
             break
@@ -63,7 +57,6 @@ async def main():
     server = await asyncio.start_server(
         handle, HOST, PORT)
     addr = server.sockets[0].getsockname()
-    #print(f'Serving on {addr}')
     async with server:
         await server.serve_forever()
 
