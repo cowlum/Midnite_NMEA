@@ -36,7 +36,7 @@ async def tcp_client(message):
             data = bme280.sample(i2cbus, i2caddress, calibration_params) 
             
             pressure = data.pressure
-            pressure = str(pressure/1000)
+            pressure = str(pressure/1000) # convert from Bar to mBar
             
             airtemp = str(round(data.temperature,1))
 
@@ -55,7 +55,6 @@ async def tcp_client(message):
             time.sleep(seconds)
             
             await writer.wait_closed()
-            #print(npres)
 
         except:
             await writer.wait_closed()
