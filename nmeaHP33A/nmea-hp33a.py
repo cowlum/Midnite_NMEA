@@ -11,7 +11,7 @@ GPSDPORT = config.get("HP33A", "gpsd_port")
 HOST = config.get("HP33A", "dest_IP")
 PORT = config.get("HP33A", "dest_port")
 ## Below sets GPSD to output in nmea
-nmeaconfig='?WATCH={"enable":true,"json":false,"nmea":true,"raw":0,"scaled":false,"timing":false,"split24":false,"pps":false}' 
+gpsdconfig='?WATCH={"enable":true,"json":false,"nmea":true,"raw":0,"scaled":false,"timing":false,"split24":false,"pps":false}' 
 
 ## Check for enabled
 if hp33a_enabled == 'no':
@@ -49,4 +49,4 @@ async def tcp_client(message):
             quit()
           
 
-asyncio.run(tcp_client(nmeaconfig))
+asyncio.run(tcp_client(gpsdconfig))
