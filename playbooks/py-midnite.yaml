@@ -9,15 +9,11 @@
   vars:    
 
   tasks:
-
-    #- name: Intall pip required packages
-      #pip: name=pynmea2,pyserial,configparser,bme280,smbus2
-      #  executable: pip-3.3
-      #with_items: python_packages_to_install
 # Install (Bottle) python package.
     - pip:
         name: pynmea2,pyserial,configparser,RPi.bme280,smbus2
         executable: pip3
+  
 
     
 
