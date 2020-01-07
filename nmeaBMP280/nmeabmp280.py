@@ -16,12 +16,11 @@ HOST = config.get("BMP280", "dest_IP")
 PORT = config.get("BMP280", "dest_port")
 seconds = int(config.get("BMP280", "seconds"))
 endline = "\n"
-## Variables need to come from configparser
-port = 1
-address = 0x76
-bus = smbus2.SMBus(port)
+i2cport = config.get("BMP280", "i2cport")
+i2caddress = config.get("BMP280", "i2caddress")
+i2cbus = smbus2.SMBus(i2cport)
 
-calibration_params = bme280.load_calibration_params(bus, address)
+calibration_params = bme280.load_calibration_params(i2cbus, i2caddress)
 
 ## Open a connection to Nmea Communicator
 ## While True collect pressure and tempreture
@@ -34,7 +33,7 @@ async def tcp_client(message):
         try: 
             reader, writer = await asyncio.open_connection(
         HOST, PORT)
-            data = bme280.sample(bus, address, calibration_params) 
+            data = bme280.sample(i2cbus, i2caddress, calibration_params) 
             
             pressure = data.pressure
             pressure = str(pressure/1000)
