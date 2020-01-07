@@ -22,6 +22,10 @@ i2cbus = smbus2.SMBus(i2cport)
 
 calibration_params = bme280.load_calibration_params(i2cbus, i2caddress)
 
+## Check for enabled
+if bmp280_enabled == 'no':
+    exit()
+
 ## Open a connection to Nmea Communicator
 ## While True collect pressure and tempreture
 ## Send the nmea string compiled by pynmea2 and wait seconds.
