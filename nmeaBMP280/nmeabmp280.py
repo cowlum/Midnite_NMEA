@@ -16,30 +16,30 @@ HOST = config.get("BMP280", "dest_IP")
 PORT = config.get("BMP280", "dest_port")
 seconds = int(config.get("BMP280", "seconds"))
 endline = "\n"
+## Variables need to come from configparser
 port = 1
 address = 0x76
 bus = smbus2.SMBus(port)
 
-
 calibration_params = bme280.load_calibration_params(bus, address)
-
 
 ## Open a connection to Nmea Communicator
 ## While True collect pressure and tempreture
 ## Send the nmea string compiled by pynmea2 and wait seconds.
 
 async def tcp_client(message):
-    reader, writer = await asyncio.open_connection(
-        HOST, PORT)
+
 
     while True:
         try: 
+            reader, writer = await asyncio.open_connection(
+        HOST, PORT)
             data = bme280.sample(bus, address, calibration_params) 
             
-            pressure = str(round(data.pressure))
-            pressure = "1.0" + pressure ## conversion from bar to hPa
+            pressure = data.pressure
+            pressure = str(pressure/1000)
+            
             airtemp = str(round(data.temperature,1))
-            #print(data)
 
             ntemp = str(pynmea2.XDR('II','XDR',(('C',airtemp,'C','Temp Sensor',))))
             ntemp = ntemp + endline
@@ -52,10 +52,13 @@ async def tcp_client(message):
             writer.write(ntemp)
             writer.write(npres)
             await writer.drain()
+            
             time.sleep(seconds)
-            #print("loop restarts")
+            
+            await writer.wait_closed()
+            #print(npres)
+
         except:
-            #print('Close the connection')
             await writer.wait_closed()
             exit()
 

@@ -24,7 +24,7 @@ def forward(writer, addr, message):
                 #w.write(f"{addr!r}: {message!r}\n".encode())
                 w.write(message.encode())
             except:
-                print(w)
+                #print(w)
                 writers.remove(w)
                 #print("Failure to send")
                 break
@@ -45,7 +45,7 @@ async def handle(reader, writer):
         
             if data is b'':
                 try:
-                    print(addr)
+                #    print(addr)
                     writers.remove(writer)
                     writer.close()
                     break
@@ -53,8 +53,8 @@ async def handle(reader, writer):
                 except:
                     break
         except:
-            print("heres the fail")
-            print(addr)
+       #     print("heres the fail")
+       #     print(addr)
             writers.remove(writer)
             writer.close()
             break

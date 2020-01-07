@@ -1,0 +1,8 @@
+  File "nmea-comm.py", line 33
+    async def handle(reader, writer):
+            ^
+SyntaxError: invalid syntax
+  File "nmea-comm.py", line 33
+    async def handle(reader, writer):
+            ^
+SyntaxError: invalid syntax
