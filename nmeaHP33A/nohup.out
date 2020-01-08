@@ -1,4 +1,0 @@
-  File "nmea-hp33a.py", line 28
-    async def tcp_client(message):
-            ^
-SyntaxError: invalid syntax
