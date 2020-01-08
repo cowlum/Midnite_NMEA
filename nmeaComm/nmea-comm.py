@@ -17,6 +17,8 @@ if ncomm_enabled == 'no':
 
 ## Function for sending to all devices except the source
 ## Do we need/want an async and await w.wrote here
+
+
 def forward(writer, addr, message):
     for w in writers:
         if w != writer:

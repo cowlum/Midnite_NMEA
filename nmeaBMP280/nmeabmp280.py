@@ -16,8 +16,8 @@ HOST = config.get("BMP280", "dest_IP")
 PORT = config.get("BMP280", "dest_port")
 seconds = int(config.get("BMP280", "seconds"))
 endline = "\n"
-i2cport = config.get("BMP280", "i2cport")
-i2caddress = config.get("BMP280", "i2caddress")
+i2cport = int(config.get("BMP280", "i2cport"))
+i2caddress = int(config.get("BMP280", "i2caddress"),16)
 i2cbus = smbus2.SMBus(i2cport)
 
 calibration_params = bme280.load_calibration_params(i2cbus, i2caddress)
@@ -34,13 +34,13 @@ async def tcp_client(message):
 
 
     while True:
-        try: 
+        try:
             reader, writer = await asyncio.open_connection(
         HOST, PORT)
             data = bme280.sample(i2cbus, i2caddress, calibration_params) 
             
             pressure = data.pressure
-            pressure = str(pressure/1000) # convert from Bar to mBar
+            pressure = str(pressure/1000)
             
             airtemp = str(round(data.temperature,1))
 
@@ -51,17 +51,19 @@ async def tcp_client(message):
             npres = str(pynmea2.XDR('II','XDR',(('P',pressure,'B','Pressure Sensor',))))
             npres = npres + endline
             npres = npres.encode()        
-        
+
             writer.write(ntemp)
             writer.write(npres)
             await writer.drain()
             
-            time.sleep(seconds)
-            
+            writer.close()
             await writer.wait_closed()
 
+            time.sleep(seconds)
+            #print(pressure)
+
         except:
-            await writer.wait_closed()
+            writer.close()
             exit()
 
 asyncio.run(tcp_client('connecting'))
