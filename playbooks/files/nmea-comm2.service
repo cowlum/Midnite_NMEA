@@ -6,13 +6,14 @@ StartLimitIntervalSec=200
 StartLimitBurst=5
 
 [Service]
-ExecStart=/usr/bin/python3 -u nmea-comm.py
+User=midnite
+Group=midnite
 WorkingDirectory=/home/midnite/
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
 RestartSec=30
-User=midnite
+ExecStart=/usr/bin/python3 -u nmea-comm.py
 
 [Install]
 WantedBy=multi-user.target
