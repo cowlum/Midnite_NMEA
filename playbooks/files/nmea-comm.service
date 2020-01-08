@@ -3,6 +3,8 @@ Description=nmeaComm
 After=multi-user.target
 
 [Service]
+User=midnite
+Group=midnite
 Restart=always
 RestartSec=5
 Type=idle
