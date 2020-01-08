@@ -43,3 +43,16 @@
         group: midnite
         mode: 0644
         backup: yes   
+
+    - name: Copy the service files into the system service directory
+       copy: src=./files/*.service dest=/etc/systemd/system owner=root group=root mode=0755
+
+    - name: just force systemd to reread configs (2.4 and above)
+      systemd:
+        daemon_reload: yes
+
+    - name: enable nmeacomm service
+      service: name=nmeacomm enabled=yes
+
+    - name: start nmeacomm
+      service: name=nmeacomm state=started
