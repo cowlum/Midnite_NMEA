@@ -2,6 +2,8 @@
 ### Install .py files and config
 ### Setup Systemd 
 
+### Generate  arole
+
 - hosts: all
   remote_user: pi
   become: yes
@@ -9,12 +11,35 @@
   vars:    
 
   tasks:
-# Install (Bottle) python package.
+# Install python packages.
     - pip:
         name: pynmea2,pyserial,configparser,RPi.bme280,smbus2
         executable: pip3
   
 
-    
+ 	- name: Copy usb rules 
+      copy:
+        src: ./files/99-usb.rules
+        dest: /etc/udev/rules.d/ 
+        owner: root
+        group: dialout
+        mode: 0644
+        backup: yes
+        
+    - name: Copy config files to boot
+       copy:
+        src: ./files/*.config
+        dest: /boot/
+        owner: midnite
+        group: midnite
+        mode: 0644
+        backup: yes   
 
-
+    - name: Copy python files to home
+       copy:
+        src: ./files/*.py
+        dest: /home/midnite/
+        owner: midnite
+        group: midnite
+        mode: 0644
+        backup: yes   
