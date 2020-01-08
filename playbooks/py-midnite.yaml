@@ -17,7 +17,7 @@
         executable: pip3
   
 
- 	- name: Copy usb rules 
+    - name: Copy usb rules 
       copy:
         src: ./files/99-usb.rules
         dest: /etc/udev/rules.d/ 
