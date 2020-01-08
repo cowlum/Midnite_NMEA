@@ -1,0 +1,12 @@
+[Unit]
+Description=nmeaComm
+After=multi-user.target
+
+[Service]
+Restart=always
+RestartSec=5
+Type=idle
+ExecStart=/usr/bin/python /home/midnite/nmea-comm.py
+
+[Install]
+WantedBy=multi-user.target
