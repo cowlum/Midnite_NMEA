@@ -1,14 +1,18 @@
 [Unit]
 Description=nmeaComm
-After=multi-user.target
+After=network.target
+StartLimitIntervalSec=200
+StartLimitBurst=5
 
 [Service]
 User=midnite
 Group=midnite
+WorkingDirectory=/home/midnite/
+StandardOutput=inherit
+StandardError=inherit
 Restart=always
-RestartSec=5
-Type=idle
-ExecStart=/usr/bin/python /home/midnite/nmea-comm.py
+RestartSec=30
+ExecStart=/usr/bin/python3 -u nmea-comm.py
 
 [Install]
 WantedBy=multi-user.target
