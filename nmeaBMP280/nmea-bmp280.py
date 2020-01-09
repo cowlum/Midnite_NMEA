@@ -10,7 +10,7 @@ time.sleep(10)
 
 ## Variables
 config = configparser.ConfigParser()
-config.read("/boot/nmeabmp280.config")
+config.read("/home/midnite/nmeabmp280.config")
 bmp280_enabled = config.get("BMP280", "bmp280_enabled")
 HOST = config.get("BMP280", "dest_IP")
 PORT = config.get("BMP280", "dest_port")

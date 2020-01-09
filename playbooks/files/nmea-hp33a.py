@@ -4,7 +4,7 @@ import time
 ## Variables
 
 config = configparser.ConfigParser()
-config.read("/home/midnite/nmeahp33a.config")
+config.read("/boot/nmeahp33a.config")
 hp33a_enabled = config.get("HP33A", "hp33a_enabled")
 GPSDHOST = config.get("HP33A", "gpsd_IP")
 GPSDPORT = config.get("HP33A", "gpsd_port")

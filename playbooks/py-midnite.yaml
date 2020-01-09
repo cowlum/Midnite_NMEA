@@ -25,34 +25,53 @@
         group: dialout
         mode: 0644
         backup: yes
-        
-    - name: Copy config files to boot
-       copy:
-        src: ./files/*.config
-        dest: /boot/
-        owner: midnite
-        group: midnite
-        mode: 0644
-        backup: yes   
 
-    - name: Copy python files to home
-       copy:
-        src: ./files/*.py
-        dest: /home/midnite/
-        owner: midnite
-        group: midnite
-        mode: 0644
-        backup: yes   
+    - name: Copy nmeaHp33a
+      copy:
+          src: "{{ item }}"
+          dest: /home/midnite
+          owner: midnite
+          mode: 0644
+      with_fileglob:
+           ['../nmeaHP33A/*.config','../nmeaHP33A/*.py']
 
-    - name: Copy the service files into the system service directory
-       copy: src=./files/*.service dest=/etc/systemd/system owner=root group=root mode=0755
+    - name: Copy nmeaComm
+      copy:
+          src: "{{ item }}"
+          dest: /home/midnite
+          owner: midnite
+          mode: 0644
+      with_fileglob:
+           ['../nmeaComm/*.config','../nmeaComm/*.py']
+
+    - name: Copy nmeaBMP280
+      copy:
+          src: "{{ item }}"
+          dest: /home/midnite
+          owner: midnite
+          mode: 0644
+      with_fileglob:
+           ['../nmeaBMP280/*.config','../nmeaBMP280/*.py']
+#           ./files/*.py
+
+    - name: Copy services 
+      copy:
+          src: "{{ item }}"
+          dest: /etc/systemd/system
+          owner: root
+          mode: 0755
+      with_fileglob:
+           ./files/*.service
+
+#    - name: Copy the service files into the system service directory
+#      copy: src=./files/*.service dest=/etc/systemd/system owner=root group=root mode=0755
 
     - name: just force systemd to reread configs (2.4 and above)
       systemd:
         daemon_reload: yes
 
     - name: enable nmeacomm service
-      service: name=nmeacomm enabled=yes
+      service: name=nmea-comm enabled=yes
 
     - name: start nmeacomm
-      service: name=nmeacomm state=started
+      service: name=nmea-comm state=started

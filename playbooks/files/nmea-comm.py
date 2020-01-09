@@ -3,7 +3,7 @@ import configparser
 
 ## Variables
 config = configparser.ConfigParser()
-config.read("/home/midnite/nmeacomm.config")
+config.read("/boot/nmeacomm.config")
 ncomm_enabled = config.get("nmeaCOMM", "ncomm_enalbed")
 HOST = config.get("nmeaCOMM", "IP")
 PORT = config.get("nmeaCOMM", "port")
