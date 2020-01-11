@@ -16,7 +16,7 @@
 #        name: pynmea2,pyserial,configparser,RPi.bme280,smbus2
 #        executable: pip3
 
-    - name: Copy usb rules 
+    - name: Copy gpsd config
       copy:
         src: ./files/gpsd
         dest: /etc/default/gpsd
@@ -69,10 +69,10 @@
           owner: root
           mode: 0755
       with_fileglob:
-           ./files/*.service
+           [./files/*.service]
 
-    - name: Copy the service files into the system service directory
-      copy: src=./files/*.service dest=/etc/systemd/system owner=root group=root mode=0755
+    #- name: Copy the service files into the system service directory
+    #  copy: src=./files/*.service dest=/etc/systemd/system owner=root group=root mode=0755
 
     - name: just force systemd to reread configs (2.4 and above)
       systemd:
