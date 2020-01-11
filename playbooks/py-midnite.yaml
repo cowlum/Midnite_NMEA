@@ -12,10 +12,18 @@
 
   tasks:
 # Install python packages.
-    - pip:
-        name: pynmea2,pyserial,configparser,RPi.bme280,smbus2
-        executable: pip3
-  
+#    - pip:
+#        name: pynmea2,pyserial,configparser,RPi.bme280,smbus2
+#        executable: pip3
+
+    - name: Copy usb rules 
+      copy:
+        src: ./files/gpsd
+        dest: /etc/default/gpsd
+        owner: root
+        group: dialout
+        mode: 0644
+        backup: yes
 
     - name: Copy usb rules 
       copy:
@@ -63,15 +71,30 @@
       with_fileglob:
            ./files/*.service
 
-#    - name: Copy the service files into the system service directory
-#      copy: src=./files/*.service dest=/etc/systemd/system owner=root group=root mode=0755
+    - name: Copy the service files into the system service directory
+      copy: src=./files/*.service dest=/etc/systemd/system owner=root group=root mode=0755
 
     - name: just force systemd to reread configs (2.4 and above)
       systemd:
         daemon_reload: yes
+
+    - name: Enable GPSD
+      service: name=gpsd enabled=yes
 
     - name: enable nmeacomm service
       service: name=nmea-comm enabled=yes
 
     - name: start nmeacomm
       service: name=nmea-comm state=started
+
+    - name: enable nmeahp33a service
+      service: name=nmea-hp33a enabled=yes
+
+    - name: start nmeahp33a
+      service: name=nmea-hp33a state=started
+
+    - name: enable nmeabmp280 service
+      service: name=nmea-bmp280 enabled=yes
+
+    - name: start nmeabmp280
+      service: name=nmea-bmp280 state=started
