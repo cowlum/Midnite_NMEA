@@ -12,9 +12,9 @@
 
   tasks:
 # Install python packages.
-#    - pip:
-#        name: pynmea2,pyserial,configparser,RPi.bme280,smbus2
-#        executable: pip3
+    - pip:
+        name: pynmea2,pyserial,configparser,RPi.bme280,smbus2
+        executable: pip3
 
     - name: Copy gpsd config
       copy:
