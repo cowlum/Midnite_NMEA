@@ -1,8 +1,7 @@
 ###########################################################################################################
-Wifi Setup
+##Wifi Setup
 ###################################################################################################################
 
----
 - hosts: all
   remote_user: pi
   become: yes
@@ -19,7 +18,7 @@ Wifi Setup
 
     - name: Copy dhcp.conf
       copy:
-        src: ./files/dhcp.conf
+        src: ./files/dhcpd.conf
         dest: /etc/dhcp/
         owner: root
         group: dialout
@@ -29,6 +28,15 @@ Wifi Setup
     - name: Copy isc-dhcp-server
       copy:
         src: ./files/isc-dhcp-server
+        dest: /etc/defaults
+        owner: root
+        group: dialout
+        mode: 0644
+        backup: yes
+
+    - name: Copy isc-dhcp-server.conf
+      copy:
+        src: ./files/isc-dhcp-server.conf
         dest: /etc/defaults
         owner: root
         group: dialout
@@ -52,3 +60,13 @@ Wifi Setup
         group: dialout
         mode: 0644
         backup: yes
+
+    - name: Copy interfaces
+      copy:
+        src: ./files/interfaces
+        dest: /etc/network/
+        owner: root
+        group: dialout
+        mode: 0644
+        backup: yes
+
