@@ -69,12 +69,7 @@
       lineinfile:
         path: /home/midnite/.bashrc
         line: alias python='/usr/bin/python3'
-        #insertafter: aliases
 
-#   - name: Make python3 default
-#      lineinfile:
-#        path: /home/midnite/.bashrc
-#        line: alias python='/usr/bin/python3.4'
 
 
 

@@ -1,0 +1,14 @@
+###########################################################################################################
+# DO Community Playbooks
+# Playbook: Initial Server Setup
+# Based on: https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-18-04
+# Dedicated Guide: https://www.digitalocean.com/community/tutorials/automating-initial-server-setup-with-ansible
+###################################################################################################################
+
+---
+- hosts: all
+  remote_user: pi
+  become: yes
+  gather_facts: false
+  roles:
+     - dinotools.raspi_ro_root
