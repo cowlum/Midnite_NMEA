@@ -1,4 +1,0 @@
----
-- hosts: all
-  roles:
-     - DinoTools.raspi_ro_root
