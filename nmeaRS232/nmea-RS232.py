@@ -6,16 +6,16 @@ import configparser
 import time
 
 ## Allow 10 seconds for NmeaCommunicator, i2c to be active
-time.sleep(10)
+#time.sleep(10)
 
 ## Variables
-config = configparser.ConfigParser()
-config.read("/home/midnite/nmeaRS232.config")
-RS232_enabled = config.get("RS232", "bmp280_enabled")
-HOST = config.get("RS232", "dest_IP")
-PORT = config.get("RS232", "dest_port")
-seconds = int(config.get("RS232", "seconds"))
-endline = "\n"
+#config = configparser.ConfigParser()
+#config.read("/home/midnite/nmeaRS232.config")
+#RS232_enabled = config.get("RS232", "bmp280_enabled")
+#HOST = config.get("RS232", "dest_IP")
+#PORT = config.get("RS232", "dest_port")
+#seconds = int(config.get("RS232", "seconds"))
+#endline = "\n"
 
 
 ## Check for enabled
