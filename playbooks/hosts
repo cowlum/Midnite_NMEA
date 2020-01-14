@@ -3,7 +3,8 @@
 sandbox1 ansible_host=192.168.0.140
 sandbox2 ansible_host=192.168.0.100
 rpb3  ansible_host=192.168.0.121
- 
+midnite ansible_host=192.168.0.177 
+midnite_wifi ansible_host=10.0.0.1
 
 [servers:vars]
 ansible_python_interpreter=/usr/bin/python3
