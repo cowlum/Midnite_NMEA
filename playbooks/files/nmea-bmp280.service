@@ -1,8 +1,9 @@
 [Unit]
 Description=nmeabmp280
 After=network.target
-StartLimitIntervalSec=200
-StartLimitBurst=5
+StartLimitIntervalSec=400
+StartLimitBurst=15
+StartLimitAction=none
 
 [Service]
 User=midnite
@@ -11,7 +12,7 @@ WorkingDirectory=/home/midnite/
 StandardOutput=/home/midnite/bmp280standardout
 StandardError=/home/midnite/bmp280standarderror
 Restart=always
-RestartSec=30
+RestartSec=90
 ExecStart=/usr/bin/python3 -u nmea-bmp280.py
 
 [Install]
