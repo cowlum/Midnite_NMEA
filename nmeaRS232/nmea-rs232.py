@@ -3,7 +3,7 @@ import asyncio
 import configparser
 
 config = configparser.ConfigParser()
-config.read("/home/pi/shared/nmeaRS232.config")
+config.read("/home/midnite/nmears232.config")
 RS232_enabled = config.get("RS232", "RS232_enabled")
 HOST = config.get("RS232", "dest_IP")
 PORT = config.get("RS232", "dest_port")
