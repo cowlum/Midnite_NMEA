@@ -1,0 +1,19 @@
+[Unit]
+Description=nmears232
+After=network.target
+StartLimitIntervalSec=400
+StartLimitBurst=15
+StartLimitAction=none
+
+[Service]
+User=midnite
+Group=midnite
+WorkingDirectory=/home/midnite/
+StandardOutput=/home/midnite/rs232atandardout
+StandardError=/home/midnite/rs232astandardout
+Restart=always
+RestartSec=90
+ExecStart=/usr/bin/python3 -u nmea-rs232.py
+
+[Install]
+WantedBy=multi-user.target

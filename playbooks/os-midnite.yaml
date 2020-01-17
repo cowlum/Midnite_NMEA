@@ -52,12 +52,6 @@
         state: present
         regexp: '^#?PermitRootLogin'
         line: 'PermitRootLogin prohibit-password'
-    
-    - name: Update apt
-      apt: update_cache=yes
-
-    - name: Install required system packages
-      apt: name={{ sys_packages }} state=latest
 
     - name: Ensure IC2 is enable
       lineinfile:
@@ -65,12 +59,21 @@
         regexp: '^dtparam='
         line: dtparam=i2c_arm=on
 
+    - name: Ensure i2c-dev in /etc/modules
+      lineinfile:
+        path: /etc/modules
+        line: i2c-dev
+
     - name: Make Python3 default 
       lineinfile:
         path: /home/midnite/.bashrc
         line: alias python='/usr/bin/python3'
 
+    - name: Update apt
+      apt: update_cache=yes
 
+    - name: Install required system packages
+      apt: name={{ sys_packages }} state=latest
 
 
 

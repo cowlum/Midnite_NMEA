@@ -60,7 +60,16 @@
           mode: 0644
       with_fileglob:
            ['../nmeaBMP280/*.config','../nmeaBMP280/*.py']
-#           ./files/*.py
+    
+    - name: Copy serial usb
+      copy:
+          src: "{{ item }}"
+          dest: /home/midnite
+          owner: midnite
+          mode: 0644
+      with_fileglob:
+           ['../nmeaRS232/*.config','../nmeaRS232/*.py']
+
 
     - name: Copy services 
       copy:
@@ -98,3 +107,9 @@
 
     - name: start nmeabmp280
       service: name=nmea-bmp280 state=started
+
+    - name: enable nmears232 service
+      service: name=nmea-rs232 enabled=yes
+
+    - name: start nmears232
+      service: name=nmea-rs232 state=started
