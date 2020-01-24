@@ -19,3 +19,4 @@ Raspbian (set to read only) + Python3 asyncio + Asnibel deployment
 
 3) NmeaHP33A - Python program to receive NMEA strings from the HP33A (onboard AIS) via GPSD and send it to the NmeaCommunicator on port 2010.
 
+4) NmeaRS232 - Python program to send and recieve data over rs232 to the VHF
