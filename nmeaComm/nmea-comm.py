@@ -23,7 +23,7 @@ def forward(writer, addr, message):
     for w in writers:
         if w != writer:
             try:
-                w.write(message)
+                w.write(message.encode())
             except:
                 writers.remove(w)
                 break
@@ -38,7 +38,8 @@ async def handle(reader, writer):
     addr = writer.get_extra_info('peername')
     while True:
         try:
-            message = await reader.readline()
+            data = await reader.readline()
+            message = data.decode()
             forward(writer, addr, message)
             await writer.drain()
         
