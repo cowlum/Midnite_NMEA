@@ -46,7 +46,7 @@ async def send_tcp(serial):
 
 async def send_serial(data):
   try:
-     await aioserial_instance.writelines_async(data)
+     await aioserial_instance.write_async(data)
      #print(data)
   except:
     print("No Serial writer")
