@@ -6,7 +6,7 @@ Goals:
 
 
 Hardware:
-Raspberry Pi Zero + BMP280 + HP33A
+Raspberry Pi Zero + BMP280 + HP33A + GPX1600
 
 Software:
 Raspbian (set to read only) + Python3 asyncio + Asnibel deployment
