@@ -19,7 +19,7 @@ async def handle_echo():
     reader, writer = await asyncio.open_connection(
         HOST, PORT)
     while True:
-          data = await reader.readlines()
+          data = await reader.readline()
            #message = data.decode().strip()
           # print(data)
           await send_serial(data)
