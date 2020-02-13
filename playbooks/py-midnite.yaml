@@ -93,23 +93,23 @@
     - name: enable nmeacomm service
       service: name=nmea-comm enabled=yes
 
-    - name: start nmeacomm
-      service: name=nmea-comm state=started
+#    - name: start nmeacomm
+#      service: name=nmea-comm state=started
 
     - name: enable nmeahp33a service
       service: name=nmea-hp33a enabled=yes
 
-    - name: start nmeahp33a
-      service: name=nmea-hp33a state=started
+#    - name: start nmeahp33a
+#      service: name=nmea-hp33a state=started
 
-    - name: enable nmeabmp280 service
-      service: name=nmea-bmp280 enabled=yes
+#    - name: enable nmeabmp280 service
+#      service: name=nmea-bmp280 enabled=yes
 
-    - name: start nmeabmp280
-      service: name=nmea-bmp280 state=started
+#    - name: start nmeabmp280
+#      service: name=nmea-bmp280 state=started
 
     - name: enable nmears232 service
       service: name=nmea-rs232 enabled=yes
 
-    - name: start nmears232
-      service: name=nmea-rs232 state=started
+#    - name: start nmears232
+#      service: name=nmea-rs232 state=started

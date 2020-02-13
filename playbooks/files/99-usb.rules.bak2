@@ -1,0 +1,2 @@
+KERNELS=="1-1.1", SYMLINK+="hp33a"
+KERNELS=="1-1.2", SYMLINK+="vhf"

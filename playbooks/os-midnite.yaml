@@ -13,7 +13,7 @@
   vars:
     create_user: midnite
     copy_local_key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
-    sys_packages: ['python3-pip','gpsd','telnet','python-dev','python-smbus','i2c-tools'] 
+    sys_packages: ['python3-pip','gpsd','telnet','python-dev','python-smbus','i2c-tools','screen','gpsd-clients'] 
 #    sys_packages: ['git','screen','python-pip','python3-pip','gpsd','gpsd-clients','telnet','python-gps','build-essential','python-dev','python-smbus','i2c-tools'] 
 #    python_packages_to_install: "pynmea2"
 
