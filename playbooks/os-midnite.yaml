@@ -76,4 +76,8 @@
       apt: name={{ sys_packages }} state=latest
 
 
-
+    - name: set the baud at reboot
+      cron:
+      name: "baud at reboot"
+      special_time: reboot
+      job: "sudo stty -F /dev/ttyUSB0 38400"
