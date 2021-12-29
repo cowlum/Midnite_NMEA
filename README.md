@@ -1,5 +1,7 @@
 # Midnite_NMEA
 
+Obsolete. 
+
 Goals:
 1) Build a reliable ships computer providing a wifi access point which draws little power, collects NMEA strings and distrabutes to all connected devices on port 2010.
 2) Imporve Python, Ansible and Git skills.
